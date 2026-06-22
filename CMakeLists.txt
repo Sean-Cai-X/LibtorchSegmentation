@@ -10,6 +10,10 @@ set(PROJECT_VERSION 1.0.0)
 project(LibTorchSegmentation VERSION ${PROJECT_VERSION}
     DESCRIPTION "Image Segmentation library based on LibTorch")
 
+option(CX_TORCH_MAINLINE_ENABLE "Enable the cx torch mainline integration skeleton" OFF)
+option(CX_TORCH_MAINLINE_ENABLE_CXPARSER_BRIDGE "Enable cxparser bridge integration placeholders" OFF)
+option(CX_TORCH_MAINLINE_ENABLE_DEEPLAB_ADAPTER "Enable DeepLab/segmentation adapter placeholders" OFF)
+
 
 # First of all set your libtorch path.
 set(Torch_DIR $ENV{Torch_DIR}/share/cmake/Torch)
@@ -98,4 +102,7 @@ set(ALL_LIBS
 
 target_link_libraries(segmentation ${ALL_LIBS})
 
+if(CX_TORCH_MAINLINE_ENABLE)
+    add_subdirectory(cx_torch_mainline)
+endif()
 
