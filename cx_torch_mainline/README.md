@@ -18,6 +18,16 @@ The merge must be incremental. `LibtorchSegmentation` remains the segmentation
 engine base, while the current torch mainline is added as an industrial
 multi-model task layer.
 
+Phase 1 merge boundary:
+
+- `segmentation`: original `LibtorchSegmentation` model engine target
+- `cx_libtorch_module_baseline`: imported current `libtorch_module` headers
+- `cx_torch_mainline`: adapter layer that links the two without replacing
+  cxparser/cxscript semantics
+
+The first adapter is DeepLab/segmentation because it is the closest overlap
+between the original segmentation library and the current torch mainline.
+
 Recommended landing order:
 
 1. DeepLab / segmentation adapter
@@ -29,4 +39,3 @@ Recommended landing order:
 
 Do not replace the existing cxparser/cxscript runtime semantics with standalone
 demo executables. Standalone demos may exist only as local validation helpers.
-

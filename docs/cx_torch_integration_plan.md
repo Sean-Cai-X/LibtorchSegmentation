@@ -21,6 +21,32 @@ Keep these interfaces stable:
 - `elements[]`
 - `element_chains[]`
 
+## Test Chain
+
+All functional tests must keep the current public chain:
+
+```text
+image / dataset / manifest
+  -> cxscript
+  -> cxparser_ext_cxscript_cli
+  -> UnifiedImageReviewRecord
+  -> UnifiedTaskReviewBundle
+  -> UnifiedCompareSlice
+  -> UnifiedAnomalyFocusBundle
+  -> torch host/helper
+  -> Unified* result objects
+  -> HTML observation gate
+```
+
+The public executable must remain:
+
+```text
+D:\Codex-WorkDir\Sean_WorkDir\cxparser\build\Release\cxparser_ext_cxscript_cli.exe
+```
+
+Do not replace this with a local demo, smoke executable, or a new standalone
+entrypoint from `LibtorchSegmentation`.
+
 ## Merge Model
 
 `LibtorchSegmentation` remains the segmentation engine base. The current
@@ -62,4 +88,3 @@ Project every task into unified review records and HTML observation reports.
 - Making demo executables the public entry.
 - Treating `runtime_ms=0` as verified performance.
 - Reworking CUDA/CMake behavior as a way to switch task semantics.
-

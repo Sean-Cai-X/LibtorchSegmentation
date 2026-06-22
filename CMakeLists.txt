@@ -1,5 +1,3 @@
-include(GNUInstallDirs)
-
 cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -10,10 +8,16 @@ set(PROJECT_VERSION 1.0.0)
 project(LibTorchSegmentation VERSION ${PROJECT_VERSION}
     DESCRIPTION "Image Segmentation library based on LibTorch")
 
+include(GNUInstallDirs)
+
 option(CX_TORCH_MAINLINE_ENABLE "Enable the cx torch mainline integration skeleton" OFF)
 option(CX_TORCH_MAINLINE_ENABLE_CXPARSER_BRIDGE "Enable cxparser bridge integration placeholders" OFF)
 option(CX_TORCH_MAINLINE_ENABLE_DEEPLAB_ADAPTER "Enable DeepLab/segmentation adapter placeholders" OFF)
+option(LIBTORCHSEGMENTATION_ENABLE_CUDA12_NVTX_SHIM "Provide CUDA::nvToolsExt compatibility target for CUDA 12 style NVTX headers" ON)
 
+if(LIBTORCHSEGMENTATION_ENABLE_CUDA12_NVTX_SHIM)
+    include(cmake/LibtorchSegmentationCudaCompat.cmake)
+endif()
 
 # First of all set your libtorch path.
 set(Torch_DIR $ENV{Torch_DIR}/share/cmake/Torch)
@@ -23,6 +27,10 @@ if (Torch_FOUND)
     message(STATUS "Torch library found!")
 else ()
     message(FATAL_ERROR "Could not locate Torch" \n)
+endif()
+
+if(LIBTORCHSEGMENTATION_ENABLE_CUDA12_NVTX_SHIM)
+    libtorchsegmentation_sanitize_nvtoolsext_includes(torch)
 endif()
 
 # At this point, OpenCV should be already installed
@@ -103,6 +111,6 @@ set(ALL_LIBS
 target_link_libraries(segmentation ${ALL_LIBS})
 
 if(CX_TORCH_MAINLINE_ENABLE)
+    add_subdirectory(libtorch_module)
     add_subdirectory(cx_torch_mainline)
 endif()
-

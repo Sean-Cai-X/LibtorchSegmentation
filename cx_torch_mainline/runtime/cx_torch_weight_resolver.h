@@ -11,6 +11,12 @@ struct CxTorchWeightSet {
     std::string resnet50_weight_ref;
 };
 
+struct CxTorchModuleBoundary {
+    std::string segmentation_engine_target;
+    std::string libtorch_module_target;
+    std::string mainline_adapter_target;
+};
+
 inline CxTorchWeightSet DefaultWeightNames() {
     return CxTorchWeightSet{
         "yolov8n_dict.pt",
@@ -20,5 +26,12 @@ inline CxTorchWeightSet DefaultWeightNames() {
     };
 }
 
-}  // namespace cx_torch_mainline
+inline CxTorchModuleBoundary DefaultModuleBoundary() {
+    return CxTorchModuleBoundary{
+        "segmentation",
+        "cx_libtorch_module_baseline",
+        "cx_torch_mainline",
+    };
+}
 
+}  // namespace cx_torch_mainline
