@@ -114,7 +114,7 @@ function(configure_libtorch_module_target target_name)
             NOMINMAX
             _CRT_SECURE_NO_WARNINGS
         )
-        target_compile_options(${target_name} PRIVATE /EHsc)
+        target_compile_options(${target_name} PRIVATE /EHsc /utf-8)
         target_link_options(${target_name} PRIVATE
             "/INCLUDE:?warp_size@cuda@at@@YAHXZ"
             "/INCLUDE:?ignore_this_library_placeholder@@YAHXZ"
